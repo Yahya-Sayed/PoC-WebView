@@ -1,29 +1,11 @@
 <html>
   <body>
-    <h1>File Access PoC</h1>
-    
-    <div id="output"></div>
-
+    <h1>File Access PoC V2</h1>
     <script>
-      // الحصول على العنصر الذي سنطبع فيه البيانات
-      const outputElement = document.getElementById('output');
-
-      // محاولة قراءة ملف محلي
-      fetch('file:///etc/hosts')
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.statusText);
-          }
-          return response.text();
-        })
-        .then(text => {
-          // طباعة محتوى الملف في العنصر المخصص
-          outputElement.textContent = 'File contents: ' + text;
-        })
-        .catch(error => {
-          // طباعة الخطأ في العنصر المخصص
-          outputElement.textContent = 'Error: ' + error;
-        });
+      setTimeout(() => {
+        // هذه الطريقة أبسط وأكثر مباشرة لاختبار الوصول
+        location.href = 'file:///etc/hosts';
+      }, 1500);
     </script>
   </body>
 </html>
