@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Web Server</title>
     <script>
-        alert("Document domain: " + document.domain);
+        window.onload = function() {
+            document.getElementById("domain").textContent = document.domain;
+        };
     </script>
 </head>
 <body>
     <h1>Welcome to the Simple Web Server</h1>
-    <p>This page alerts the document domain when loaded.</p>
+    <p>This page shows the document domain: <span id="domain"></span></p>
 </body>
 </html>
